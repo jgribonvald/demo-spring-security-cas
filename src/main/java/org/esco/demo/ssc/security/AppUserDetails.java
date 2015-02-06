@@ -12,7 +12,11 @@ public class AppUserDetails implements UserDetails {
 	/** */
 	private static final long serialVersionUID = -4777124807325532850L;
 
-	private UserDetails user;
+	private String userid;
+
+	private Collection<? extends GrantedAuthority> authorities;
+
+	private List<String> roles;
 
 	public AppUserDetails() {
 		super();
@@ -22,23 +26,29 @@ public class AppUserDetails implements UserDetails {
 	 * @param user
 	 * @param userFactory
 	 */
-	public AppUserDetails(UserDetails user) {
+	public AppUserDetails(String userid, Collection<? extends GrantedAuthority> authorities) {
 		super();
-		this.user = user;
+		this.userid = userid;
+		this.authorities = authorities;
+		this.roles = new ArrayList<>();
+		for (GrantedAuthority authority : authorities) {
+			this.roles.add(authority.getAuthority());
+		}
+	}
+
+	public String getUserid() {
+		return userid;
 	}
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<GrantedAuthority> l = new ArrayList<GrantedAuthority>();
-		l.add(new GrantedAuthority() {
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public String getAuthority() {
-				return "ROLE_AUTHENTICATED";
-			}
-		});
-		return l;
+		/*
+		 * List<GrantedAuthority> l = new ArrayList<GrantedAuthority>(); l.add(new
+		 * GrantedAuthority() { private static final long serialVersionUID = 1L;
+		 * 
+		 * @Override public String getAuthority() { return "ROLE_AUTHENTICATED"; } }); return l;
+		 */
+		return authorities;
 	}
 
 	@Override
@@ -48,7 +58,7 @@ public class AppUserDetails implements UserDetails {
 
 	@Override
 	public String getUsername() {
-		return user.getUsername();
+		return userid;
 	}
 
 	@Override
@@ -69,6 +79,13 @@ public class AppUserDetails implements UserDetails {
 	@Override
 	public boolean isEnabled() {
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "UserDetails [userid=" + userid + ", authorities=" + roles.toString() + ", isAccountNonExpired()="
+				+ isAccountNonExpired() + ", isAccountNonLocked()=" + isAccountNonLocked()
+				+ ", isCredentialsNonExpired()=" + isCredentialsNonExpired() + ", isEnabled()=" + isEnabled() + "]";
 	}
 
 }

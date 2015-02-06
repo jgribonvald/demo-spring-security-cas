@@ -1,5 +1,7 @@
 package org.esco.demo.ssc.conf;
 
+import java.util.Arrays;
+
 import javax.inject.Inject;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -17,8 +19,7 @@ import org.springframework.core.env.Environment;
  * Configuration of web application with Servlet 3.0 APIs.
  */
 @Configuration
-public class WebConfigurer implements ServletContextInitializer,
-		EmbeddedServletContainerCustomizer {
+public class WebConfigurer implements ServletContextInitializer, EmbeddedServletContainerCustomizer {
 
 	private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
 
@@ -30,12 +31,10 @@ public class WebConfigurer implements ServletContextInitializer,
 	// private MetricRegistry metricRegistry;
 
 	@Override
-	public void onStartup(ServletContext servletContext)
-			throws ServletException {
-		// log.info("Web application configuration, using profiles: {}",
-		// Arrays.toString(env.getActiveProfiles()));
-		// EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST,
-		// DispatcherType.FORWARD, DispatcherType.ASYNC);
+	public void onStartup(ServletContext servletContext) throws ServletException {
+		log.info("Web application configuration, using profiles: {}", Arrays.toString(env.getActiveProfiles()));
+		// EnumSet<DispatcherType> disps = EnumSet
+		// .of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
 		// initMetrics(servletContext, disps);
 		// if (env.acceptsProfiles(Constants.SPRING_PROFILE_PRODUCTION)) {
 		// initCachingHttpHeadersFilter(servletContext, disps);
@@ -45,6 +44,7 @@ public class WebConfigurer implements ServletContextInitializer,
 		// if (env.acceptsProfiles(Constants.SPRING_PROFILE_DEVELOPMENT)) {
 		// initH2Console(servletContext);
 		// }
+
 		log.info("Web application fully configured");
 	}
 
@@ -61,7 +61,6 @@ public class WebConfigurer implements ServletContextInitializer,
 		mappings.add("json", "text/html;charset=utf-8");
 		container.setMimeMappings(mappings);
 	}
-
 	/**
 	 * Initializes the GZip filter.
 	 */
@@ -84,29 +83,20 @@ public class WebConfigurer implements ServletContextInitializer,
 	/**
 	 * Initializes the static resources production Filter.
 	 */
-	// private void initStaticResourcesProductionFilter(
-	// ServletContext servletContext, EnumSet<DispatcherType> disps) {
+	// private void initStaticResourcesProductionFilter(ServletContext servletContext,
+	// EnumSet<DispatcherType> disps) {
 	//
-	// log.debug("Registering static resources production Filter");
-	// FilterRegistration.Dynamic staticResourcesProductionFilter =
-	// servletContext
-	// .addFilter("staticResourcesProductionFilter",
-	// new StaticResourcesProductionFilter());
+	// log.debug("Registering static resources Filter");
+	// FilterRegistration.Dynamic staticResourcesProductionFilter = servletContext.addFilter(
+	// "staticResourcesProductionFilter", new StaticResourcesProductionFilter());
 	//
-	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true,
-	// "/");
-	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true,
-	// "/index.html");
-	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true,
-	// "/images/*");
-	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true,
-	// "/fonts/*");
-	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true,
-	// "/scripts/*");
-	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true,
-	// "/styles/*");
-	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true,
-	// "/views/*");
+	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/");
+	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/index.jsp");
+	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/images/*");
+	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/fonts/*");
+	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/scripts/*");
+	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/styles/*");
+	// staticResourcesProductionFilter.addMappingForUrlPatterns(disps, true, "/views/*");
 	// staticResourcesProductionFilter.setAsyncSupported(true);
 	// }
 
@@ -129,43 +119,5 @@ public class WebConfigurer implements ServletContextInitializer,
 	// cachingHttpHeadersFilter.addMappingForUrlPatterns(disps, true,
 	// "/styles/*");
 	// cachingHttpHeadersFilter.setAsyncSupported(true);
-	// }
-
-	/**
-	 * Initializes Metrics.
-	 */
-	// private void initMetrics(ServletContext servletContext,
-	// EnumSet<DispatcherType> disps) {
-	// log.debug("Initializing Metrics registries");
-	// servletContext.setAttribute(InstrumentedFilter.REGISTRY_ATTRIBUTE,
-	// metricRegistry);
-	// servletContext.setAttribute(MetricsServlet.METRICS_REGISTRY,
-	// metricRegistry);
-	//
-	// log.debug("Registering Metrics Filter");
-	// FilterRegistration.Dynamic metricsFilter = servletContext.addFilter(
-	// "webappMetricsFilter", new InstrumentedFilter());
-	//
-	// metricsFilter.addMappingForUrlPatterns(disps, true, "/*");
-	// metricsFilter.setAsyncSupported(true);
-	//
-	// log.debug("Registering Metrics Servlet");
-	// ServletRegistration.Dynamic metricsAdminServlet = servletContext
-	// .addServlet("metricsServlet", new MetricsServlet());
-	//
-	// metricsAdminServlet.addMapping("/metrics/metrics/*");
-	// metricsAdminServlet.setAsyncSupported(true);
-	// metricsAdminServlet.setLoadOnStartup(2);
-	// }
-
-	/**
-	 * Initializes H2 console
-	 */
-	// private void initH2Console(ServletContext servletContext) {
-	// log.debug("Initialize H2 console");
-	// ServletRegistration.Dynamic h2ConsoleServlet = servletContext
-	// .addServlet("H2Console", new org.h2.server.web.WebServlet());
-	// h2ConsoleServlet.addMapping("/console/*");
-	// h2ConsoleServlet.setLoadOnStartup(1);
 	// }
 }
