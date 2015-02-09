@@ -7,6 +7,7 @@ import javax.inject.Inject;
 
 import org.esco.demo.ssc.security.AuthoritiesConstants;
 import org.esco.demo.ssc.security.CustomUserDetailsService;
+import org.esco.demo.ssc.web.filter.CsrfCookieGeneratorFilter;
 import org.jasig.cas.client.session.SingleSignOutFilter;
 import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
 import org.jasig.cas.client.validation.Saml11TicketValidator;
@@ -26,6 +27,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
+import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy;
+import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
@@ -89,6 +93,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
+	public SessionAuthenticationStrategy sessionStrategy() {
+		SessionAuthenticationStrategy sessionStrategy = new SessionFixationProtectionStrategy();
+		return sessionStrategy;
+	}
+
+	@Bean
 	public Saml11TicketValidator casSamlServiceTicketValidator() {
 		return new Saml11TicketValidator(env.getRequiredProperty(CAS_URL_PREFIX));
 	}
@@ -102,6 +112,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
 		CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
 		casAuthenticationFilter.setAuthenticationManager(authenticationManager());
+		casAuthenticationFilter.setSessionAuthenticationStrategy(sessionStrategy());
 		return casAuthenticationFilter;
 	}
 
@@ -143,10 +154,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http
-		// .addFilterAfter(new CsrfCookieGeneratorFilter(), CsrfFilter.class)
-		.exceptionHandling().authenticationEntryPoint(casAuthenticationEntryPoint()).and()
-				.addFilter(casAuthenticationFilter())
+		http.addFilterAfter(new CsrfCookieGeneratorFilter(), CsrfFilter.class).exceptionHandling()
+				.authenticationEntryPoint(casAuthenticationEntryPoint()).and().addFilter(casAuthenticationFilter())
 				.addFilterBefore(singleSignOutFilter(), CasAuthenticationFilter.class)
 				.addFilterBefore(requestCasGlobalLogoutFilter(), LogoutFilter.class);
 
@@ -160,11 +169,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.logout().logoutUrl("/logout").logoutSuccessUrl("/").invalidateHttpSession(true)
 				.deleteCookies("JSESSIONID");
 
-		/**
-		 * <session-management session-fixation-protection="newSession"/>
-		 */
-		http.sessionManagement().sessionFixation().changeSessionId();
-
-		http.csrf().disable();
+		// http.csrf();
 	}
 }
