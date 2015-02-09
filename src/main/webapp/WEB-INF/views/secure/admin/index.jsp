@@ -11,6 +11,6 @@ pageEncoding="UTF-8"%>
 
 <p><a href="secure">Secure page</a></p>
 <p><a href="/">Home page</a></p>
-<p><form action="/logout"><button type="submit" formmethod="post">Logout</button></form></p>
+<p><form action="/logout"><input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"><button type="submit" formmethod="post">Logout</button></form></p>
 </body>
 </html>
