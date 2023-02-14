@@ -1,0 +1,27 @@
+server:
+  address: localhost
+
+app:
+  service:
+    security: http://localhost:8080/j_spring_cas_security_check
+    home: http://localhost:8080/
+  admin:
+    userName: admin
+  cors:
+    allowed:
+      origins:
+
+cas:
+  service:
+    login: https://test.cas.ent/cas/login
+    logout: https://test.cas.ent/cas/logout
+  url:
+    prefix: https://test.cas.ent/cas/
+
+spring:
+  view:
+    prefix: /WEB-INF/views/
+    suffix: .jsp
+
+logging:
+  config: "classpath:logback.xml"
