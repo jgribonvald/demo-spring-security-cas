@@ -1,24 +1,25 @@
 package org.esco.demo.ssc.security;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.cas.authentication.CasAssertionAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Set;
 
 /**
  * Authenticate a user from the database.
  */
+//@Service
+@Slf4j
 public class CustomUserDetailsService implements AuthenticationUserDetailsService<CasAssertionAuthenticationToken> {
-
-	private final Logger log = LoggerFactory.getLogger(CustomUserDetailsService.class);
 
 	private Set<String> admins;
 
@@ -35,12 +36,13 @@ public class CustomUserDetailsService implements AuthenticationUserDetailsServic
 	}
 
 	@Override
-	public UserDetails loadUserDetails(CasAssertionAuthenticationToken token) throws UsernameNotFoundException {
+	@Transactional
+	public CustomUserDetails loadUserDetails(CasAssertionAuthenticationToken token) throws UsernameNotFoundException {
 		String login = token.getPrincipal().toString();
 		String lowercaseLogin = login.toLowerCase();
 
 		log.debug("Authenticating '{}'", login);
-		List<GrantedAuthority> grantedAuthorities = new ArrayList<GrantedAuthority>();
+		List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
 		if (admins != null && admins.contains(lowercaseLogin)) {
 			grantedAuthorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN));
@@ -55,6 +57,7 @@ public class CustomUserDetailsService implements AuthenticationUserDetailsServic
 			});
 		}
 
-		return new AppUserDetails(lowercaseLogin, grantedAuthorities);
+		return new CustomUserDetails(lowercaseLogin, grantedAuthorities);
 	}
+
 }
