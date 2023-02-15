@@ -12,7 +12,7 @@
     <p><a href="filtered">filtered secure page</a></p>
     <%if (request.getUserPrincipal() != null && !request.getUserPrincipal().equals("anonymousUser")) { %>
     <p>
-      <form action="/logout">
+      <form action="logout">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         <button type="submit" formmethod="post">Logout</button>
       </form>

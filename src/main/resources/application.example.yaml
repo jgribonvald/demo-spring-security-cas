@@ -1,5 +1,8 @@
 server:
   address: localhost
+  port: 8080
+#  servlet:
+#    context-path: /
 
 app:
   service:
@@ -19,9 +22,10 @@ cas:
     prefix: https://test.cas.ent/cas/
 
 spring:
-  view:
-    prefix: /WEB-INF/views/
-    suffix: .jsp
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp
 
 logging:
   config: "classpath:logback.xml"

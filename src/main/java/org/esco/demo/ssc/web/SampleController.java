@@ -36,7 +36,6 @@ public class SampleController {
 
 		// renders /WEB-INF/jsp/index.jsp
 		return "index";
-		// return "Hello World! (user: " + user + ")";
 	}
 
 	@GetMapping("/secure")
@@ -48,7 +47,6 @@ public class SampleController {
 
 		// renders /WEB-INF/jsp/index.jsp
 		return "secure/index";
-		// return "Hello World! (user: " + user + ")";
 	}
 
 	@GetMapping("/filtered")
@@ -60,7 +58,6 @@ public class SampleController {
 
 		// renders /WEB-INF/jsp/index.jsp
 		return "secure/admin/index";
-		// return "Hello World! (user: " + user + ")";
 	}
 
 }

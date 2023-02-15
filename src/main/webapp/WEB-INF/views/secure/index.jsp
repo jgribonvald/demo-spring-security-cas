@@ -11,12 +11,11 @@
     <h1>You are in secure path</h1>
 
     <p><a href="/">Home page</a></p>
-    <!-- <p><a href="app/extreme">Extremely secure page</a></p>-->
     <sec:authorize access="isAuthenticated()">
-    <p>You are an admin! You can therefore see the <a href="filtered">filtered secure page</a>.</p>
+        <p>You are an admin! You can therefore see the <a href="filtered">filtered secure page</a>.</p>
     </sec:authorize>
     <p>
-      <form:form action="/logout">
+      <form:form action="logout">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         <button type="submit" formmethod="post">Logout</button>
       </form:form>
