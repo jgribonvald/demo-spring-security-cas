@@ -1,8 +1,7 @@
 package org.esco.demo.ssc.conf;
 
 import jakarta.inject.Inject;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.server.MimeMappings;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
 import org.springframework.boot.web.servlet.ServletContextInitializer;
@@ -19,16 +18,19 @@ import java.util.Arrays;
  * Configuration of web application with Servlet 3.0 APIs.
  */
 @Configuration
+@Slf4j
 public class WebConfigurer implements ServletContextInitializer, WebServerFactoryCustomizer<ConfigurableServletWebServerFactory> {
-
-    private final Logger log = LoggerFactory.getLogger(WebConfigurer.class);
 
     @Inject
     private Environment env;
 
     @Override
     public void onStartup(ServletContext servletContext) {
-        log.info("Web application configuration, using profiles: {}", Arrays.toString(env.getActiveProfiles()));
+        try {
+            log.info("Web application configuration, using profiles: {}", Arrays.toString(env.getActiveProfiles()));
+        } catch (Exception ignored) {
+            log.warn("No Spring profile configured");
+        }
 //        EnumSet<DispatcherType> disps = EnumSet.of(DispatcherType.REQUEST, DispatcherType.FORWARD, DispatcherType.ASYNC);
 //        if (env.acceptsProfiles(Profiles.of(Constants.SPRING_PROFILE_PRODUCTION))) {
 //            initCachingHttpHeadersFilter(servletContext, disps);

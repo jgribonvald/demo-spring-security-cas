@@ -16,7 +16,6 @@ import org.springframework.security.cas.web.CasAuthenticationEntryPoint;
 import org.springframework.security.cas.web.CasAuthenticationFilter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.core.userdetails.AuthenticationUserDetailsService;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.logout.LogoutFilter;
@@ -143,6 +142,7 @@ public class SecurityConfiguration {
     @Bean
     public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
         CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
+//        casAuthenticationFilter.setFilterProcessesUrl("/j_spring_cas_security_check");
         casAuthenticationFilter.setAuthenticationManager(authenticationManager());
         casAuthenticationFilter.setSessionAuthenticationStrategy(sessionStrategy());
 //        casAuthenticationFilter.setAuthenticationFailureHandler(ajaxAuthenticationFailureHandler);
@@ -187,18 +187,6 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public WebSecurityCustomizer webSecurityCustomizer() {
-        return web -> web.ignoring().antMatchers(
-                "/fonts/**",
-                "/images/**",
-                "/scripts/**",
-                "/styles/**",
-                "/views/**",
-                "/i18n/**"
-        );
-    }
-
-    @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.cors().and()
                 .addFilterAfter(new CsrfCookieGeneratorFilter(), CsrfFilter.class).exceptionHandling()
@@ -209,7 +197,15 @@ public class SecurityConfiguration {
 
         http.headers().frameOptions().disable().and()
                 .authorizeRequests(authz -> authz
-                        .antMatchers("/").permitAll()
+                        .antMatchers(
+                                "/",
+                                "/fonts/**",
+                                "/images/**",
+                                "/scripts/**",
+                                "/styles/**",
+                                "/views/**",
+                                "/i18n/**"
+                        ).permitAll()
                         .antMatchers(
                                 "/login",
                                 "/logout",

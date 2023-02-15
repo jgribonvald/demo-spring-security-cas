@@ -17,15 +17,15 @@ public class SampleController {
 		return "redirect:/";
 	}
 
-//	 @RequestMapping("/j_spring_cas_security_logout")
-//		 public String spring_logout() {
-//		 return "redirect:/logout";
-//	 }
+//	@RequestMapping("/j_spring_cas_security_logout")
+//	public String spring_logout() {
+//		return "redirect:/logout";
+//	}
 
-//	 @RequestMapping("/logout")
-//		 public String logout() {
-//		 return "redirect:/";
-//	 }
+//	@RequestMapping("/logout")
+//	public String logout() {
+//		return "redirect:/";
+//	}
 
 	@GetMapping(value = { "/", "" })
 	public String index(Model model) {
