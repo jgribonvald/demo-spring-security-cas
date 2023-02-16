@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.DatatypeConverter;
+import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.List;
 import java.util.zip.Inflater;
@@ -258,7 +259,7 @@ public final class CustomSingleSignOutHandler {
             final int resultLength = decompresser.inflate(result);
 
             // decode the bytes into a String
-            return new String(result, 0, resultLength, "UTF-8");
+            return new String(result, 0, resultLength, StandardCharsets.UTF_8);
         } catch (final Exception e) {
             logger.error("Unable to decompress logout message", e);
             throw new RuntimeException(e);

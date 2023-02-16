@@ -2,7 +2,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-<html>
+<html lang="">
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Insert title here</title>
@@ -15,7 +15,7 @@
         <p>You are an admin! You can therefore see the <a href="filtered">filtered secure page</a>.</p>
     </sec:authorize>
     <p>
-      <form:form action="logout">
+      <form:form action="/logout">
         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}">
         <button type="submit" formmethod="post">Logout</button>
       </form:form>

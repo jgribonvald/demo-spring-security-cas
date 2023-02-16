@@ -28,6 +28,7 @@ public final class CustomSingleSignOutFilter extends AbstractConfigurationFilter
 
     private AtomicBoolean handlerInitialized = new AtomicBoolean(false);
 
+    @Override
     public void init(final FilterConfig filterConfig) throws ServletException {
     	super.init(filterConfig);
 
@@ -92,6 +93,7 @@ public final class CustomSingleSignOutFilter extends AbstractConfigurationFilter
         }
     }
 
+    @Override
     public void destroy() {
         // nothing to do
     }

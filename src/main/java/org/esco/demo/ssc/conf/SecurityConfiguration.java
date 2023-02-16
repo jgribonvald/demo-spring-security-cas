@@ -140,7 +140,7 @@ public class SecurityConfiguration {
     }
 
     @Bean
-    public CasAuthenticationFilter casAuthenticationFilter() throws Exception {
+    public CasAuthenticationFilter casAuthenticationFilter() {
         CasAuthenticationFilter casAuthenticationFilter = new CasAuthenticationFilter();
         casAuthenticationFilter.setFilterProcessesUrl("/j_spring_cas_security_check");
         casAuthenticationFilter.setAuthenticationManager(authenticationManager());

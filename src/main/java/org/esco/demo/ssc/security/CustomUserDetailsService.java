@@ -36,7 +36,6 @@ public class CustomUserDetailsService implements AuthenticationUserDetailsServic
 	}
 
 	@Override
-	@Transactional
 	public CustomUserDetails loadUserDetails(CasAssertionAuthenticationToken token) throws UsernameNotFoundException {
 		String login = token.getPrincipal().toString();
 		String lowercaseLogin = login.toLowerCase();
