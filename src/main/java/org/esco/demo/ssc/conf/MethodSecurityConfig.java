@@ -1,6 +1,8 @@
 package org.esco.demo.ssc.conf;
 
 import org.esco.demo.ssc.security.AuthoritiesConstants;
+import org.springframework.boot.autoconfigure.AutoConfigureBefore;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.expression.method.DefaultMethodSecurityExpressionHandler;
@@ -12,32 +14,45 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.method.configuration.GlobalMethodSecurityConfiguration;
 
 @Configuration
+@AutoConfigureBefore(SecurityConfiguration.class)
 @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
+	private final ApplicationContext applicationContext;
+
+	public MethodSecurityConfig(ApplicationContext applicationContext) {
+		this.applicationContext = applicationContext;
+	}
+
 	@Bean
-	public RoleHierarchyVoter roleHierarchyVoter() {
+	public RoleHierarchyVoter roleVoter() {
 		return new RoleHierarchyVoter(roleHierarchy());
 	}
 
 	@Bean
 	public RoleHierarchy roleHierarchy() {
 		RoleHierarchyImpl rhi = new RoleHierarchyImpl();
-		rhi.setHierarchy(AuthoritiesConstants.ADMIN + " > " + AuthoritiesConstants.USER + " "
-				+ AuthoritiesConstants.USER + " > " + AuthoritiesConstants.ANONYMOUS);
+		rhi.setHierarchy(AuthoritiesConstants.ADMIN
+				+ " > " + AuthoritiesConstants.USER
+				+ " > " + AuthoritiesConstants.AUTHENTICATED
+				+ " > " + AuthoritiesConstants.ANONYMOUS);
+
 		return rhi;
 	}
 
-	// @Bean
-	// public PermissionEvaluator permissionEvaluator() {
-	// return new CustomPermissionEvaluator();
-	// }
+//	@Bean
+//	public PermissionEvaluator permissionEvaluator() {
+//		return new CustomPermissionEvaluator();
+//	}
 
 	@Override
 	protected MethodSecurityExpressionHandler createExpressionHandler() {
 		DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
-		// expressionHandler.setPermissionEvaluator(permissionEvaluator());
+//		expressionHandler.setPermissionEvaluator(permissionEvaluator());
 		expressionHandler.setRoleHierarchy(roleHierarchy());
+		expressionHandler.setApplicationContext(applicationContext);
+
 		return expressionHandler;
 	}
+
 }
