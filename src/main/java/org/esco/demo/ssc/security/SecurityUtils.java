@@ -2,6 +2,8 @@ package org.esco.demo.ssc.security;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -22,10 +24,10 @@ public final class SecurityUtils {
     public static String getCurrentLogin() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
         Authentication authentication = securityContext.getAuthentication();
-        UserDetails springSecurityUser = null;
+        UserDetails springSecurityUser;
         String userName = null;
 
-        if(authentication != null) {
+        if (authentication != null) {
             if (authentication.getPrincipal() instanceof UserDetails) {
                 springSecurityUser = (UserDetails) authentication.getPrincipal();
                 userName = springSecurityUser.getUsername();
@@ -44,17 +46,12 @@ public final class SecurityUtils {
      */
     public static boolean isAuthenticated() {
         SecurityContext securityContext = SecurityContextHolder.getContext();
-
         final Collection<? extends GrantedAuthority> authorities = securityContext.getAuthentication().getAuthorities();
 
-        if (authorities != null) {
-            for (GrantedAuthority authority : authorities) {
-                if (authority.getAuthority().equals(AuthoritiesConstants.ANONYMOUS)) {
-                    return false;
-                }
-            }
-        }
-
-        return true;
+        return authorities != null
+                && !authorities.equals(AuthorityUtils.NO_AUTHORITIES)
+                && !authorities.contains(new SimpleGrantedAuthority(
+                AuthoritiesConstants.ANONYMOUS));
     }
+
 }
