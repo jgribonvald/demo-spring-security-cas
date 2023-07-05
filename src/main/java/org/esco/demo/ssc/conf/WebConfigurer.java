@@ -10,7 +10,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 
 import jakarta.inject.Inject;
-import javax.servlet.ServletContext;
+import jakarta.servlet.ServletContext;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 

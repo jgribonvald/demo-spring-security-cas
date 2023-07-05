@@ -5,7 +5,7 @@ import org.esco.demo.ssc.security.AuthoritiesConstants;
 import org.esco.demo.ssc.security.CustomSingleSignOutFilter;
 import org.esco.demo.ssc.security.CustomUserDetailsService;
 import org.esco.demo.ssc.web.filter.CsrfCookieGeneratorFilter;
-import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
+import org.apereo.cas.client.validation.Cas20ServiceTicketValidator;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
@@ -199,7 +199,7 @@ public class SecurityConfiguration {
 
         http.headers().frameOptions().disable().and()
                 .authorizeRequests(authz -> authz
-                        .antMatchers(
+                        .requestMatchers(
                                 "/",
                                 "/fonts/**",
                                 "/images/**",
@@ -208,12 +208,12 @@ public class SecurityConfiguration {
                                 "/views/**",
                                 "/i18n/**"
                         ).permitAll()
-                        .antMatchers(
+                        .requestMatchers(
                                 "/login",
                                 "/logout",
                                 "/secure"
                         ).authenticated()
-                        .antMatchers("/filtered").hasAuthority(AuthoritiesConstants.ADMIN)
+                        .requestMatchers("/filtered").hasAuthority(AuthoritiesConstants.ADMIN)
                         .anyRequest().authenticated()
                 );
 
