@@ -1,7 +1,6 @@
 package org.esco.demo.ssc.web.rest;
 
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -21,24 +20,24 @@ import org.springframework.web.bind.annotation.RestController;
 @Slf4j
 public class SampleRestResource {
 
-	/**
-	 * GET /account -> get user
-	 */
-	@GetMapping(value = "/account", produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<UserDetails> getAccount() {
-		SecurityContext securityContext = SecurityContextHolder.getContext();
-		Authentication authentication = securityContext.getAuthentication();
-		UserDetails springSecurityUser = null;
+    /**
+     * GET /account -> get user
+     */
+    @GetMapping(value = "/account", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<UserDetails> getAccount() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication = securityContext.getAuthentication();
+        UserDetails springSecurityUser = null;
 
-		if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
-			springSecurityUser = (UserDetails) authentication.getPrincipal();
-		}
-		if (springSecurityUser == null) {
-			return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-		}
-		log.debug("UserDetails {}", springSecurityUser);
+        if (authentication != null && authentication.getPrincipal() instanceof UserDetails) {
+            springSecurityUser = (UserDetails) authentication.getPrincipal();
+        }
+        if (springSecurityUser == null) {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+        log.debug("UserDetails {}", springSecurityUser);
 
-		return new ResponseEntity<>(springSecurityUser, HttpStatus.OK);
-	}
+        return new ResponseEntity<>(springSecurityUser, HttpStatus.OK);
+    }
 
 }

@@ -18,42 +18,42 @@ import java.util.Set;
 @Slf4j
 public class CustomUserDetailsService implements AuthenticationUserDetailsService<CasAssertionAuthenticationToken> {
 
-	private Set<String> admins;
+    private Set<String> admins;
 
-	public CustomUserDetailsService() {
-		super();
-	}
+    public CustomUserDetailsService() {
+        super();
+    }
 
-	/**
-	 * @param admins
-	 */
-	public CustomUserDetailsService(Set<String> admins) {
-		super();
-		this.admins = admins;
-	}
+    /**
+     * @param admins
+     */
+    public CustomUserDetailsService(Set<String> admins) {
+        super();
+        this.admins = admins;
+    }
 
-	@Override
-	public CustomUserDetails loadUserDetails(CasAssertionAuthenticationToken token) throws UsernameNotFoundException {
-		String login = token.getPrincipal().toString();
-		String lowercaseLogin = login.toLowerCase();
+    @Override
+    public CustomUserDetails loadUserDetails(CasAssertionAuthenticationToken token) throws UsernameNotFoundException {
+        String login = token.getPrincipal().toString();
+        String lowercaseLogin = login.toLowerCase();
 
-		log.debug("Authenticating '{}'", login);
-		List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+        log.debug("Authenticating '{}'", login);
+        List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
 
-		if (admins != null && admins.contains(lowercaseLogin)) {
-			grantedAuthorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN));
-		} else {
-			grantedAuthorities.add(new GrantedAuthority() {
-				private static final long serialVersionUID = 1L;
+        if (admins != null && admins.contains(lowercaseLogin)) {
+            grantedAuthorities.add(new SimpleGrantedAuthority(AuthoritiesConstants.ADMIN));
+        } else {
+            grantedAuthorities.add(new GrantedAuthority() {
+                private static final long serialVersionUID = 1L;
 
-				@Override
-				public String getAuthority() {
-					return AuthoritiesConstants.USER;
-				}
-			});
-		}
+                @Override
+                public String getAuthority() {
+                    return AuthoritiesConstants.USER;
+                }
+            });
+        }
 
-		return new CustomUserDetails(lowercaseLogin, grantedAuthorities);
-	}
+        return new CustomUserDetails(lowercaseLogin, grantedAuthorities);
+    }
 
 }

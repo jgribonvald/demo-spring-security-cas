@@ -22,13 +22,13 @@ public class AccountResource {
 //	 @Inject
 //	 private ApplicationContext applicationContext;
 
-	/**
-	 * GET /authenticate -> check if the user is authenticated, and return its login.
-	 */
-	@GetMapping(value = "authenticate", produces = MediaType.APPLICATION_JSON_VALUE)
-	public String isAuthenticated(HttpServletRequest request) {
-		log.debug("REST request to check if the current user is authenticated");
-		return request.getRemoteUser();
-	}
+    /**
+     * GET /authenticate -> check if the user is authenticated, and return its login.
+     */
+    @GetMapping(value = "authenticate", produces = MediaType.APPLICATION_JSON_VALUE)
+    public String isAuthenticated(HttpServletRequest request) {
+        log.debug("REST request to check if the current user is authenticated");
+        return request.getRemoteUser();
+    }
 
 }

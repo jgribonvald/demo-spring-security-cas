@@ -1,7 +1,9 @@
 package org.esco.demo.ssc.conf;
 
 import lombok.extern.slf4j.Slf4j;
-import org.esco.demo.ssc.security.*;
+import org.esco.demo.ssc.security.AuthoritiesConstants;
+import org.esco.demo.ssc.security.CustomSingleSignOutFilter;
+import org.esco.demo.ssc.security.CustomUserDetailsService;
 import org.esco.demo.ssc.web.filter.CsrfCookieGeneratorFilter;
 import org.jasig.cas.client.validation.Cas20ServiceTicketValidator;
 import org.springframework.context.annotation.Bean;

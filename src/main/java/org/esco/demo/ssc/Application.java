@@ -11,12 +11,12 @@ import java.util.Arrays;
 @Slf4j
 public class Application {
 
-	public static void main(String[] args) {
-		ApplicationContext ctx = SpringApplication.run(Application.class, args);
+    public static void main(String[] args) {
+        ApplicationContext ctx = SpringApplication.run(Application.class, args);
 
-		String[] beanNames = ctx.getBeanDefinitionNames();
-		Arrays.sort(beanNames);
-		log.info("Let's inspect the beans provided by Spring Boot: {}", Arrays.toString(beanNames));
-	}
+        String[] beanNames = ctx.getBeanDefinitionNames();
+        Arrays.sort(beanNames);
+        log.info("Let's inspect the beans provided by Spring Boot: {}", Arrays.toString(beanNames));
+    }
 
 }

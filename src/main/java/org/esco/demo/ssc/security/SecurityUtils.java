@@ -15,7 +15,8 @@ import java.util.Collection;
  */
 public final class SecurityUtils {
 
-    private SecurityUtils() {}
+    private SecurityUtils() {
+    }
 
     /**
      * Get the login of the current user.
@@ -48,9 +49,9 @@ public final class SecurityUtils {
         final Collection<? extends GrantedAuthority> authorities = securityContext.getAuthentication().getAuthorities();
 
         return authorities != null
-				&& !authorities.equals(AuthorityUtils.NO_AUTHORITIES)
-				&& !authorities.contains(new SimpleGrantedAuthority(
-						AuthoritiesConstants.ANONYMOUS));
+                && !authorities.equals(AuthorityUtils.NO_AUTHORITIES)
+                && !authorities.contains(new SimpleGrantedAuthority(
+                AuthoritiesConstants.ANONYMOUS));
     }
 
 }

@@ -1,6 +1,5 @@
 package org.esco.demo.ssc.conf;
 
-import jakarta.inject.Inject;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.web.server.MimeMappings;
 import org.springframework.boot.web.server.WebServerFactoryCustomizer;
@@ -10,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.http.MediaType;
 
+import jakarta.inject.Inject;
 import javax.servlet.ServletContext;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;

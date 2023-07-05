@@ -5,7 +5,11 @@ import org.jasig.cas.client.configuration.ConfigurationKeys;
 import org.jasig.cas.client.session.SessionMappingStorage;
 import org.jasig.cas.client.util.AbstractConfigurationFilter;
 
-import javax.servlet.*;
+import javax.servlet.FilterChain;
+import javax.servlet.FilterConfig;
+import javax.servlet.ServletException;
+import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,14 +30,14 @@ public final class CustomSingleSignOutFilter extends AbstractConfigurationFilter
 
     private static final CustomSingleSignOutHandler HANDLER = new CustomSingleSignOutHandler();
 
-    private AtomicBoolean handlerInitialized = new AtomicBoolean(false);
+    private final AtomicBoolean handlerInitialized = new AtomicBoolean(false);
 
     @Override
     public void init(final FilterConfig filterConfig) throws ServletException {
-    	super.init(filterConfig);
+        super.init(filterConfig);
 
         if (!isIgnoreInitConfiguration()) {
-        	HANDLER.setArtifactParameterName(getString(ConfigurationKeys.ARTIFACT_PARAMETER_NAME));
+            HANDLER.setArtifactParameterName(getString(ConfigurationKeys.ARTIFACT_PARAMETER_NAME));
             HANDLER.setLogoutParameterName(getString(ConfigurationKeys.LOGOUT_PARAMETER_NAME));
             HANDLER.setFrontLogoutParameterName(getString(new ConfigurationKey<>("frontLogoutParameterName", "SAMLRequest")));
             HANDLER.setRelayStateParameterName(getString(ConfigurationKeys.RELAY_STATE_PARAMETER_NAME));
@@ -98,7 +102,7 @@ public final class CustomSingleSignOutFilter extends AbstractConfigurationFilter
         // nothing to do
     }
 
-    protected static CustomSingleSignOutHandler getSingleSignOutHandler() {
+    private static CustomSingleSignOutHandler getSingleSignOutHandler() {
         return HANDLER;
     }
 

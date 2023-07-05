@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration scan="true">
-    <property name="LOG_FILE" value="application.log" />
-    <include resource="org/springframework/boot/logging/logback/base.xml" />
+    <property name="LOG_FILE" value="application.log"/>
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
 
-<!--     <logger name="org.springframework.web" level=DEBUG /> -->
-<!--     <logger name="org.springframework.security" level="DEBUG" /> -->
-<!--     <logger name="org.springframework.security.web" level="DEBUG" /> -->
-    <logger name="org.springframework.security.cas" level="DEBUG" />
-<!--     <logger name="org.jasig.cas.client" level="DEBUG" /> -->
-    <logger name="org.esco.demo" level="DEBUG" />
+    <!-- <logger name="org.springframework.web" level=DEBUG /> -->
+    <!-- <logger name="org.springframework.security" level="DEBUG" /> -->
+    <!-- <logger name="org.springframework.security.web" level="DEBUG" /> -->
+    <logger name="org.springframework.security.cas" level="DEBUG"/>
+    <!-- <logger name="org.jasig.cas.client" level="DEBUG" /> -->
+    <logger name="org.esco.demo" level="DEBUG"/>
 
-     <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
+    <contextListener class="ch.qos.logback.classic.jul.LevelChangePropagator">
         <resetJUL>true</resetJUL>
     </contextListener>
 

@@ -18,41 +18,41 @@ import org.springframework.security.config.annotation.method.configuration.Globa
 @EnableGlobalMethodSecurity(prePostEnabled = true, jsr250Enabled = true)
 public class MethodSecurityConfig extends GlobalMethodSecurityConfiguration {
 
-	private final ApplicationContext applicationContext;
+    private final ApplicationContext applicationContext;
 
-	public MethodSecurityConfig(ApplicationContext applicationContext) {
-		this.applicationContext = applicationContext;
-	}
+    public MethodSecurityConfig(ApplicationContext applicationContext) {
+        this.applicationContext = applicationContext;
+    }
 
-	@Bean
-	public RoleHierarchyVoter roleVoter() {
-		return new RoleHierarchyVoter(roleHierarchy());
-	}
+    @Bean
+    public RoleHierarchyVoter roleVoter() {
+        return new RoleHierarchyVoter(roleHierarchy());
+    }
 
-	@Bean
-	public RoleHierarchy roleHierarchy() {
-		RoleHierarchyImpl rhi = new RoleHierarchyImpl();
-		rhi.setHierarchy(AuthoritiesConstants.ADMIN
-				+ " > " + AuthoritiesConstants.USER
-				+ " > " + AuthoritiesConstants.AUTHENTICATED
-				+ " > " + AuthoritiesConstants.ANONYMOUS);
+    @Bean
+    public RoleHierarchy roleHierarchy() {
+        RoleHierarchyImpl rhi = new RoleHierarchyImpl();
+        rhi.setHierarchy(AuthoritiesConstants.ADMIN
+                + " > " + AuthoritiesConstants.USER
+                + " > " + AuthoritiesConstants.AUTHENTICATED
+                + " > " + AuthoritiesConstants.ANONYMOUS);
 
-		return rhi;
-	}
+        return rhi;
+    }
 
 //	@Bean
 //	public PermissionEvaluator permissionEvaluator() {
 //		return new CustomPermissionEvaluator();
 //	}
 
-	@Override
-	protected MethodSecurityExpressionHandler createExpressionHandler() {
-		DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
+    @Override
+    protected MethodSecurityExpressionHandler createExpressionHandler() {
+        DefaultMethodSecurityExpressionHandler expressionHandler = new DefaultMethodSecurityExpressionHandler();
 //		expressionHandler.setPermissionEvaluator(permissionEvaluator());
-		expressionHandler.setRoleHierarchy(roleHierarchy());
-		expressionHandler.setApplicationContext(applicationContext);
+        expressionHandler.setRoleHierarchy(roleHierarchy());
+        expressionHandler.setApplicationContext(applicationContext);
 
-		return expressionHandler;
-	}
+        return expressionHandler;
+    }
 
 }

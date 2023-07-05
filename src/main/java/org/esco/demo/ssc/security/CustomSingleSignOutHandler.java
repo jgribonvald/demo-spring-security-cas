@@ -15,6 +15,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.bind.DatatypeConverter;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.zip.Inflater;
 
@@ -28,7 +29,6 @@ import java.util.zip.Inflater;
  * @author Marvin S. Addison
  * @version $Revision$ $Date$
  * @since 3.1.12
- *
  */
 public final class CustomSingleSignOutHandler {
 
@@ -38,25 +38,39 @@ public final class CustomSingleSignOutHandler {
     public static final String DEFAULT_RELAY_STATE_PARAMETER_NAME = "RelayState";
     private static final int DECOMPRESSION_FACTOR = 10;
 
-    /** Logger instance */
+    /**
+     * Logger instance
+     */
     private final Logger logger = LoggerFactory.getLogger(getClass());
 
-    /** Mapping of token IDs and session IDs to HTTP sessions */
+    /**
+     * Mapping of token IDs and session IDs to HTTP sessions
+     */
     private SessionMappingStorage sessionMappingStorage = new HashMapBackedSessionMappingStorage();
 
-    /** The name of the artifact parameter.  This is used to capture the session identifier. */
+    /**
+     * The name of the artifact parameter.  This is used to capture the session identifier.
+     */
     private String artifactParameterName = DEFAULT_ARTIFACT_PARAMETER_NAME;
 
-    /** Parameter name that stores logout request for back channel SLO */
+    /**
+     * Parameter name that stores logout request for back channel SLO
+     */
     private String logoutParameterName = DEFAULT_LOGOUT_PARAMETER_NAME;
 
-    /** Parameter name that stores logout request for front channel SLO */
+    /**
+     * Parameter name that stores logout request for front channel SLO
+     */
     private String frontLogoutParameterName = DEFAULT_FRONT_LOGOUT_PARAMETER_NAME;
 
-    /** Parameter name that stores the state of the CAS server webflow for the callback */
+    /**
+     * Parameter name that stores the state of the CAS server webflow for the callback
+     */
     private String relayStateParameterName = DEFAULT_RELAY_STATE_PARAMETER_NAME;
 
-    /** The prefix url of the CAS server */
+    /**
+     * The prefix url of the CAS server
+     */
     private String casServerUrlPrefix = "";
 
     private boolean artifactParameterOverPost = false;
@@ -65,7 +79,7 @@ public final class CustomSingleSignOutHandler {
 
     private List<String> safeParameters;
 
-    private LogoutStrategy logoutStrategy = isServlet30() ? new Servlet30LogoutStrategy() : new Servlet25LogoutStrategy();
+    private final LogoutStrategy logoutStrategy = isServlet30() ? new Servlet30LogoutStrategy() : new Servlet25LogoutStrategy();
 
     public void setSessionMappingStorage(final SessionMappingStorage storage) {
         this.sessionMappingStorage = storage;
@@ -137,7 +151,7 @@ public final class CustomSingleSignOutHandler {
             if (this.artifactParameterOverPost) {
                 this.safeParameters = Arrays.asList(this.logoutParameterName, this.artifactParameterName);
             } else {
-                this.safeParameters = Arrays.asList(this.logoutParameterName);
+                this.safeParameters = Collections.singletonList(this.logoutParameterName);
             }
         }
     }
@@ -146,10 +160,9 @@ public final class CustomSingleSignOutHandler {
      * Determines whether the given request contains an authentication token.
      *
      * @param request HTTP reqest.
-     *
      * @return True if request contains authentication token, false otherwise.
      */
-    protected boolean isTokenRequest(final HttpServletRequest request) {
+    boolean isTokenRequest(final HttpServletRequest request) {
         return CommonUtils.isNotBlank(CommonUtils.safeGetParameter(request, this.artifactParameterName,
                 this.safeParameters));
     }
@@ -158,7 +171,6 @@ public final class CustomSingleSignOutHandler {
      * Determines whether the given request is a CAS back channel logout request.
      *
      * @param request HTTP request.
-     *
      * @return True if request is logout request, false otherwise.
      */
     private boolean isBackChannelLogoutRequest(final HttpServletRequest request) {
@@ -173,7 +185,6 @@ public final class CustomSingleSignOutHandler {
      * when the 'casServerUrlPrefix' value is set.
      *
      * @param request HTTP request.
-     *
      * @return True if request is logout request, false otherwise.
      */
     private boolean isFrontChannelLogoutRequest(final HttpServletRequest request) {
@@ -184,7 +195,7 @@ public final class CustomSingleSignOutHandler {
     /**
      * Process a request regarding the SLO process: record the session or destroy it.
      *
-     * @param request the incoming HTTP request.
+     * @param request  the incoming HTTP request.
      * @param response the HTTP response.
      * @return if the request should continue to be processed.
      */

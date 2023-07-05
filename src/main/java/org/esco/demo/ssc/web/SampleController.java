@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Slf4j
 public class SampleController {
 
-	@RequestMapping("/login")
-	public String login() {
-		return "redirect:/";
-	}
+    @RequestMapping("/login")
+    public String login() {
+        return "redirect:/";
+    }
 
 //	@RequestMapping("/j_spring_cas_security_logout")
 //	public String spring_logout() {
@@ -27,37 +27,37 @@ public class SampleController {
 //		return "redirect:/";
 //	}
 
-	@GetMapping(value = { "/", "" })
-	public String index(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String user = auth.getName();
-		log.info("passing in /");
-		model.addAttribute("user", user);
+    @GetMapping(value = {"/", ""})
+    public String index(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = auth.getName();
+        log.info("passing in /");
+        model.addAttribute("user", user);
 
-		// renders /WEB-INF/jsp/index.jsp
-		return "index";
-	}
+        // renders /WEB-INF/jsp/index.jsp
+        return "index";
+    }
 
-	@GetMapping("/secure")
-	public String secure(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String user = auth.getName();
-		log.info("passing in /secure");
-		model.addAttribute("user", user);
+    @GetMapping("/secure")
+    public String secure(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = auth.getName();
+        log.info("passing in /secure");
+        model.addAttribute("user", user);
 
-		// renders /WEB-INF/jsp/index.jsp
-		return "secure/index";
-	}
+        // renders /WEB-INF/jsp/index.jsp
+        return "secure/index";
+    }
 
-	@GetMapping("/filtered")
-	public String filtered(Model model) {
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		String user = auth.getName();
-		log.info("passing in /filtered");
-		model.addAttribute("user", user);
+    @GetMapping("/filtered")
+    public String filtered(Model model) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        String user = auth.getName();
+        log.info("passing in /filtered");
+        model.addAttribute("user", user);
 
-		// renders /WEB-INF/jsp/index.jsp
-		return "secure/admin/index";
-	}
+        // renders /WEB-INF/jsp/index.jsp
+        return "secure/admin/index";
+    }
 
 }
